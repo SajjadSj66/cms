@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load humanize static %}
+
+{% block title %} {{ post.title }} {% endblock %}
+
+{% block content %}
+    <article class="blog-post px-3 py-5 p-md-5">
+        <div class="container">
+            <header class="blog-post-header">
+                <h2 class="title mb-2">{{ post.title }}</h2>
+                <img class="mr-3 img-fluid post-thumb d-none d-md-flex"
+                     src="{{ post.thumbnail.url }}" alt="image">
+                <div class="meta mb-3"><span class="date">Published {{ post.publish_time|naturaltime }}</span><span
+                        class="time">5 min read</span><span class="comment"><a href="#">4 comments</a></span><a
+                        href="{% url 'blog:share-post' post.pk %} ">Share</a></div>
+            </header>
+
+            <div class="blog-post-body">
+                {{ post.body }}
+            </div>
+        <hr>
+            <section>
+                {% for comment in comments %}
+                    <div>{{ comment.body }}</div>
+                {% endfor %}
+            </section>
+            <section>
+                {% if user.is_authenticated %}
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        {{ comments_form.as_table }}
+                        <input type="submit" value="Send">
+                    </form>
+                {% else %}
+                    <a href="/accounts/login">login</a>
+                {% endif %}
+            </section>
+{#            <nav class="blog-nav nav nav-justified my-5">#}
+{#                <a class="nav-link-prev nav-item nav-link rounded-left" href="index.html">Previous<i#}
+{#                        class="arrow-prev fas fa-long-arrow-alt-left"></i></a>#}
+{#                <a class="nav-link-next nav-item nav-link rounded-right" href="blog-list.html">Next<i#}
+{#                        class="arrow-next fas fa-long-arrow-alt-right"></i></a>#}
+{#            </nav>#}
+{##}
+{#            <div class="blog-comments-section">#}
+{#                <div id="disqus_thread"></div>#}
+{#                <script>#}
+{#                    /**#}
+{#                     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT#}
+{#                     *  THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR#}
+{#                     *  PLATFORM OR CMS.#}
+{#                     *#}
+{#                     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT:#}
+{#                     *  https://disqus.com/admin/universalcode/#configuration-variables#}
+{#                     */#}
+{#                    /*#}
+{#                    var disqus_config = function () {#}
+{#                        // Replace PAGE_URL with your page's canonical URL variable#}
+{#                        this.page.url = PAGE_URL;  #}
+{#                        #}
+{#                        // Replace PAGE_IDENTIFIER with your page's unique identifier variable#}
+{#                        this.page.identifier = PAGE_IDENTIFIER; #}
+{#                    };#}
+{#                    */#}
+{##}
+{#                    (function () {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW#}
+{#                        var d = document, s = d.createElement('script');#}
+{##}
+{#                        // IMPORTANT: Replace 3wmthemes with your forum shortname!#}
+{#                        s.src = 'https://3wmthemes.disqus.com/embed.js';#}
+{##}
+{#                        s.setAttribute('data-timestamp', +new Date());#}
+{#                        (d.head || d.body).appendChild(s);#}
+{#                    })();#}
+{#                </script>#}
+{#                <noscript>#}
+{#                    Please enable JavaScript to view the#}
+{#                    <a href="https://disqus.com/?ref_noscript" rel="nofollow">#}
+{#                        comments powered by Disqus.#}
+{#                    </a>#}
+{#                </noscript>#}
+{#            </div><!--//blog-comments-section-->#}
+
+        </div><!--//container-->
+    </article>
+{% endblock %}
+{% block footerextra %}
+    <script src="{% static 'assets/js/blog.js' %}"></script>
+{% endblock %}

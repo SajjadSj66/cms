@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .even{
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+{% for category in categories %}
+    <p class="{% if forloop.counter0|divisibleby:2 %} even {% else %} odd{% endif %}">{{ category.title }}</p>
+{% endfor %}
+</body>
+</html>

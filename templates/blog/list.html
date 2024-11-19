@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <section class="blog-list px-3 py-5 p-md-5">
+        <div class="container">
+            {% for item in posts %}
+                <div class="item mb-5">
+                    <div class="media">
+                        <img class="mr-3 img-fluid post-thumb d-none d-md-flex"
+                             src="{{ item.thumbnail.url }}" alt="image">
+                        <div class="media-body">
+                            <h3 class="title mb-1"><a href="{{ item.publish_time|date:"Y/m/d" }}/{{ item.slug }}">{{ item.title }}</a></h3>
+                            <div class="meta mb-1"><span class="date">{{ item.publish_time }}</span><span class="time">5 min read</span><span
+                                    class="comment"><a href="#">4 comments</a></span></div>
+                            <div class="intro">{{ item.lead }}
+                            </div>
+                            <a class="more-link" href="{{ item.publish_time|date:'Y/m/d' }}/{{ item.slug }}">Read more
+                                &rarr;</a>
+                        </div><!--//media-body-->
+                    </div><!--//media-->
+                </div>
+            {% endfor %}
+
+
+
+            <nav class="blog-nav nav nav-justified my-5">
+                <a class="nav-link-prev nav-item nav-link rounded-left" href="list.html">Previous<i
+                        class="arrow-prev fas fa-long-arrow-alt-left"></i></a>
+                <a class="nav-link-next nav-item nav-link rounded-right" href="blog-list.html">Next<i
+                        class="arrow-next fas fa-long-arrow-alt-right"></i></a>
+            </nav>
+
+        </div>
+    </section>
+{% endblock %}
